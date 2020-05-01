@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+<head>
+    <title>Covid-19-Model</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./assets/bootstrap.min.css" rel="stylesheet">
+    <link href="./assets/Chart.min.css" rel="stylesheet">
+    <script src="./assets/bootstrap.min.js"></script>
+    <script src="./assets/Chart.min.js"></script>
+    <script src="./assets/covid.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row" style="width:100%;">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header" style="background-color:Gainsboro;">
+                        <H5><b>Covid-19 Model with Constraints and Feedback</b></H5>
+                        <small>mircea.andrecut@gmail.com</small>
+                    </div>
+                    <div class="card-body">
+                        <p>”All models are wrong, but some are useful.” George Box</p>
+                        <p><b>What?</b></p>
+                        <p>- A simple epidemic model able to capture the lockdown-relaxation, and the lack of immunity effects.</p>
+                        <p><b>Why?</b></p>
+                        <p>- Relaxing the lockdown constraints may flare up the epidemic.</p>
+                        <p>- A possible lack of immunity may perpetuate the epidemic for a long time.</p>
+                        <p><b>How?</b></p>
+                        <p>- SIRD population model: Susceptible, Infective, Recovered, Deceased.</p>
+                        <p>- Constraints: lockdown-relaxation.</p>
+                        <p>- Feedback: lack of immunity.</p>                    
+                        <p><b>SIRD - basic model</b></p>
+                        <p>Standard differential equations model, currently used by everybody:</p>
+                        <div style="text-align: center;">
+                            <img src="./assets/model0.png" alt="SIRD-basic model">
+                        </div><br>
+                        <div style="text-align: center;">
+                            <p> dS/dt = -aSI</p>
+                            <p> dI/dt = aSI - gI - hI</p>
+                            <p> dR/dt = gI</p>
+                            <p> dD/dt = hI</p>
+                        </div>
+                        <p>Cannot capture the lockdown-relaxation and the possible lack of immunity effects.</p>
+                        <p><b>SIRD - Scaling Properties</b></p>
+                        <p>Scaling doesn't change the shape of the solution. 
+                        Assume that this is the model before scaling:</p>
+                        <div style="text-align: center;">
+                            <p> dS/dt' = -a'SI</p>
+                            <p> dI/dt' = a'SI - g'I - h'I</p>
+                            <p> dR/dt' = g'I</p>
+                            <p> dD/dt' = h'I</p>
+                        </div>
+                        <p>One can conveniently scale the model such that: g + h = 1:</p>                   
+                        <div style="text-align: center;">
+                            <p> g = g'/(g' + h')</p>
+                            <p> h = h'/(g' + h')</p>
+                            <p> a = a'/(g' + h')</p>
+                            <p> dt = (g' + h')dt'</p>
+                        </div>
+                        <p><b>SIRD - with constraints and feedback</b></p>
+                        <p>The constraints model lockdown-relaxation, the feedbak models possible lack of immunity.</p>
+                        <div style="text-align: center;">
+                            <img src="./assets/model1.png" alt="SIRD-constraints-feedback">
+                        </div><br>
+                        <p>The lockdown is modeled splitting the Susceptible population in two sub-populations, Confined and Unconfined:</p>
+                        <p>The lack of immunity is modeled using a feedback f>0 from Recovered to Unconfined.</p>
+                        <p>The system becomes</p>
+                        <div style="text-align: center;">
+                            <p> dC/dt = -aCI</p>
+                            <p> dU/dt = -bUI + fR</p>
+                            <p> dI/dt = aCI + bUI - gI - hI</p>
+                            <p> dR/dt = gI - fR</p>
+                            <p> dD/dt = hI</p>
+                        </div>
+                        <p>We assume also that for the Confined the parameter a=a(t) can be a step-step function or a step-linear function. 
+                        This will model the lockdown-relaxation of the Confined population.</p>
+                        <p><b>The Main Assumptions</b></p>
+                        <p>- Susceptible = Confined + Unconfined.</p> 
+                        <p>- Initial fraction of infective: I(0) = 0.00001.</p>
+                        <p>- Integration step: dt = 0.001.</p>
+                        <p>- Time scaling: 1000*dt = 5 days (an infected can be infective for 5 days).</p>
+                        <p>- Reproduction number for Confined: a = 1. The number of infections resulting 
+                        from a single infection in the Confined population.</p>
+                        <p>- Reproduction number for Unonfined: 1 <= b <= 9. The number of infections resulting 
+                        from a single infection in the Confined population. Default value: b = 2.6.</p>
+                        <p>- Lack of immunity feedback: 0 <= f <=1.</p>
+                        <p>- Rate of Deceased: 0 <= h <= 0.9. Default value h = 0.034 (estimated by WHO).</p> 
+                        <p>- Rate of Recovered: g = 1.0 - h.</p> 
+                        <p>- Lockdown starts after 20 days (fixed value).</p>
+                        <p>- Lockdown duration 10 days <= Ts <= 100 dayes. Default value Ts = 40 days.</p>
+                        <p>- Linear relaxation time 1 days <= Ts <= 100 dayes. Default value Ts = 80 days.<p>
+                        <p>- Simulation time: 730 days (2 years), fixed value.<p>
+                        <p><b>SIRD-with lack of Immunity and without lockdown-relaxation</b></p>
+                        <p>- See the right panel, top chart.</p>
+                        <p>- The reproduction numbers are identical a=b for both Confined and Unconfined, since all population 
+                        is Unconfined.</p>
+                        <p>- The lack immunity feedback f can be used to simulate the possibility of reinfection of the Recovered.</p>
+                        <p>- If f = 0 then we have 100% immunity, and the virus has a short and painful effect.</p>
+                        <p>- If f > 0 then one can have waves of epidemic and the number of deaths increases substantially.</p>
+                        <p><b>SIRD-with lack of Immunity and step-step lockdown-relaxation</b></p>
+                        <p>- See the right panel, middle chart.</p>
+                        <p>- The lockdown starts after 20 days, and the length is variable: 10 <= Ts <= 100</p>
+                        <p>- At the begining of the lockdown the Unconfined is set to 0.1 <= U <= 0.9, 
+                        and the Confined population is set to C = 1 - U.</p>
+                        <p>- The reproduction number for the Confined population is: a = 1 for 20 <= t <= Ts, and a = b otherwise.</p>
+                        <p>- The reproduction number for the Unonfined population is variable: 1 <= b <= 9.</p>
+                        <p>- The lack immunity feedback f is as described before.</p>
+                        <p>- One can see a big infective peak after the step relaxation of lockdown, accompanied by 
+                        waves of epidemic if f > 0, resulting in a substantial increase in deaths and a "perpetuation" of infective.</p>
+                        <p><b>SIRD-with lack of Immunity and step-linear lockdown-relaxation</b></p>
+                        <p>- See the right panel, bottom chart.</p>
+                        <p>- The lockdown is as before a step function of length Ts.</p>
+                        <p>- The relaxation is a linear function of length 1 <= Tl <= 100.</p>
+                        <p>- The rest of the parameters are as before.</p>
+                        <p>- One can see that by using a linear relaxation over a longer time the infective peak 
+                        and the waves become smaller.</p>
+                        <small>
+                        <p><b>References</b></p>
+                        <p>1. N.M. Ferguson and the Imperial College COVID-19 Response Team, 
+                        Impact of non-pharmaceutical interventions (NPIs) to reduce COVID- 19 mortality and healthcare demand, 
+                        preprint March 2020.</p>
+                        <p>2. E. Mordecai, M. Childs, M. Kain, N. Nova, J. Ritchie and M. Harris, Potential Long-Term Intervention Strategies
+                        for COVID-19, https://covid-measures.github.io.</p>
+                        <p>3. G. Nakamura, B. Grammaticos and M. Badoual, Confinement strategies in a simple SIR model, preprint April 2020.</p>
+                        <p>4. R.E. Mickens, Exact solutions to a finite-difference model of a nonlinear reaction-advection equation: Implica-
+                        tions for numerical analysis, Numer. Methods Partial Diff. Eq. 5 (1989) 313.</p>
+                        <p>5. D. Adam, Special report: The simulations driving the world’s response to COVID-19,
+                        in https://www.nature.com/articles/d41586-020-01003-6 (2020).</p>
+                        <p>6. https://www.worldometers.info/coronavirus </p>
+                        </small>
+                    </div>                    
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header" style="background-color:Gainsboro;">
+                        <H5><b>Simulation Results</b></H5>
+                        <a href="./assets/covid-19-model.pdf">PDF presentation</a>
+                    </div>
+                    <div class="card-body">
+                        <H6><b>SIRD-with lack of Immunity and without lockdown-relaxation</b></H6>
+                        <label>a=b=</label><input type="number" value="2.6" id="a_b_model1" min="1" max="9" step="0.01" style="width:70px;">
+                        <label>f=</label><input type="number" value="0.05" id="f_model1" min="0" max="1" step="0.01" style="width:70px;">
+                        <label>h=</label><input type="number" value="0.034" id="h_model1" min="0" max="1" step="0.001" style="width:80px;">
+                        <button class="btn btn-outline-dark btn-sm" style="float: right;" onclick="model1()"><small>Compute Model</small></button></H5></center>
+                        <div id="model1div">
+                            <canvas id="chart_model1" style="width:100%; height:400px; max-height:400px;"></canvas>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <H6><b>SIRD-with lack of Immunity and step-step lockdown-relaxation</b></H6>
+                        <label>b=</label><input type="number" value="2.6" id="b_model2" min="1" max="9" step="0.1" style="width:70px;">
+                        <label>f=</label><input type="number" value="0.05" id="f_model2" min="0" max="1" step="0.01" style="width:70px;">
+                        <label>h=</label><input type="number" value="0.034" id="h_model2" min="0" max="1" step="0.001" style="width:80px;">
+                        <label>U=</label><input type="number" value="0.2" id="U_model2" min="0.1" max="0.9" step="0.1" style="width:65px;">
+                        <label>Ts=</label><input type="number" value="40" id="T_model2" min="10" max="100" step="1" style="width:80px;">
+                        <button class="btn btn-outline-dark btn-sm" style="float: right;" onclick="model2()"><small>Compute Model</small></button></H5></center>
+                        <div id="model2div">
+                            <canvas id="chart_model2" style="width:100%; height:400px; max-height:400px;"></canvas>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <H6><b>SIRD-with lack of Immunity and step-linear lockdown-relaxation</b></H6>
+                        <label>b=</label><input type="number" value="2.6" id="b_model3" min="1" max="9" step="0.1" style="width:70px;">
+                        <label>f=</label><input type="number" value="0.05" id="f_model3" min="0" max="1" step="0.01" style="width:70px;">
+                        <label>h=</label><input type="number" value="0.034" id="h_model3" min="0" max="1" step="0.001" style="width:80px;">
+                        <label>U(0)=</label><input type="number" value="0.2" id="U_model3" min="0.1" max="0.9" step="0.1" style="width:65px;">
+                        <label>Ts=</label><input type="number" value="40" id="T_model3" min="1" max="100" step="1" style="width:80px;">
+                        <label>Tl=</label><input type="number" value="80" id="TT_model3" min="1" max="100" step="1" style="width:80px;">
+                        <button class="btn btn-outline-dark btn-sm" style="float: right;" onclick="model3()"><small>Compute Model</small></button></H5></center>
+                        <div id="model3div">
+                            <canvas id="chart_model3" style="width:100%; height:400px; max-height:400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        model1();
+        model2();
+        model3();
+    </script>
+
+</body>
+</html>
