@@ -79,13 +79,13 @@
                         <p>- Integration step: dt = 0.001.</p>
                         <p>- Time scaling: 1000*dt = 5 days (an infected can be infective for 5 days).</p>
                         <p>- Reproduction number for Confined: a = 1. The number of infections resulting from a single infection in the Confined population.</p>
-                        <p>- Reproduction number for Unonfined: 1 <= b <= 9. The number of infections resulting from a single infection in the Confined population. Default value: b = 2.6.</p>
+                        <p>- Reproduction number for Unconfined: 1 <= b <= 9. The number of infections resulting from a single infection in the Confined population. Default value: b = 2.6.</p>
                         <p>- Lack of immunity feedback: 0 <= f <=1.</p>
                         <p>- Rate of Deceased: 0 <= h <= 0.9. Default value h = 0.034 (estimated by WHO).</p> 
                         <p>- Rate of Recovered: g = 1.0 - h.</p> 
                         <p>- Lockdown starts after 20 days (fixed value).</p>
                         <p>- Lockdown duration 10 days <= Ts <= 100 dayes. Default value Ts = 40 days.</p>
-                        <p>- Linear relaxation time 1 days <= Ts <= 100 dayes. Default value Ts = 80 days.<p>
+                        <p>- Linear relaxation time 1 days <= Ts <= 100 days. Default value Ts = 80 days.<p>
                         <p>- Simulation time: 730 days (2 years), fixed value.<p>
                         <p><b>SIRD-with lack of Immunity and without lockdown-relaxation</b></p>
                         <p>- See the right panel, top chart.</p>
@@ -95,16 +95,16 @@
                         <p>- If f > 0 then one can have waves of epidemic and the number of deaths increases substantially.</p>
                         <p><b>SIRD-with lack of Immunity and step-step lockdown-relaxation</b></p>
                         <p>- See the right panel, middle chart.</p>
-                        <p>- The lockdown starts after 20 days, and the length is variable: 10 <= Ts <= 100</p>
+                        <p>- The lockdown starts after 20 days, and the length is variable: 10 days <= Ts <= 100 days</p>
                         <p>- At the begining of the lockdown the Unconfined is set to 0.1 <= U <= 0.9, and the Confined population is set to C = 1 - U.</p>
-                        <p>- The reproduction number for the Confined population is: a = 1 for 20 <= t <= Ts, and a = b otherwise.</p>
+                        <p>- The reproduction number for the Confined population is: a = 1 for 20 days <= t <= Ts, and a = b otherwise.</p>
                         <p>- The reproduction number for the Unonfined population is variable: 1 <= b <= 9.</p>
                         <p>- The lack immunity feedback f is as described before.</p>
                         <p>- One can see a big infective peak after the step relaxation of lockdown, accompanied by waves of epidemic if f > 0, resulting in a substantial increase in deaths and a "perpetuation" of the infective population.</p>
                         <p><b>SIRD-with lack of Immunity and step-linear lockdown-relaxation</b></p>
                         <p>- See the right panel, bottom chart.</p>
                         <p>- The lockdown is as before a step function of length Ts.</p>
-                        <p>- The relaxation is a linear function of length 1 <= Tl <= 100.</p>
+                        <p>- The relaxation is a linear function of length 1 day <= Tl <= 100 days.</p>
                         <p>- The rest of the parameters are as before.</p>
                         <p>- One can see that by using a linear relaxation over a longer time the infective peak and the waves become smaller.</p>
                         <small>
