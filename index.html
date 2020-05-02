@@ -22,14 +22,14 @@
                     <div class="card-body">
                         <p>”All models are wrong, but some are useful.” George Box</p>
                         <p><b>What?</b></p>
-                        <p>- A simple epidemic model able to capture the lockdown-relaxation, and the lack of immunity effects.</p>
+                        <p>- A simple epidemic model able to capture the lockdown-relaxation, and re-infection (due to possible mutations or lack of immunity).</p>
                         <p><b>Why?</b></p>
                         <p>- Relaxing the lockdown constraints may flare up the epidemic.</p>
-                        <p>- A possible lack of immunity may perpetuate the epidemic for a long time.</p>
+                        <p>- Possible re-infection feedback may perpetuate the epidemic for a long time.</p>
                         <p><b>How?</b></p>
                         <p>- SIRD population model: Susceptible, Infective, Recovered, Deceased.</p>
                         <p>- Constraints: lockdown-relaxation.</p>
-                        <p>- Feedback: lack of immunity.</p>                    
+                        <p>- Feedback: re-infection.</p>                    
                         <p><b>SIRD - basic model</b></p>
                         <p>Standard differential equations model, currently used by everybody:</p>
                         <div style="text-align: center;">
@@ -41,7 +41,7 @@
                             <p> dR/dt = gI</p>
                             <p> dD/dt = hI</p>
                         </div>
-                        <p>Cannot capture the lockdown-relaxation and the possible lack of immunity effects.</p>
+                        <p>Cannot capture the lockdown-relaxation and re-infections effects.</p>
                         <p><b>SIRD - Scaling Properties</b></p>
                         <p>Scaling doesn't change the shape of the solution. Assume that this is the model before scaling:</p>
                         <div style="text-align: center;">
@@ -58,12 +58,12 @@
                             <p> dt = (g' + h')dt'</p>
                         </div>
                         <p><b>SIRD - with constraints and feedback</b></p>
-                        <p>The constraints model lockdown-relaxation, the feedbak models possible lack of immunity.</p>
+                        <p>The constraints model lockdown-relaxation, the feedbak models possible re-infections.</p>
                         <div style="text-align: center;">
                             <img src="./assets/model1.png" alt="SIRD-constraints-feedback">
                         </div><br>
                         <p>The lockdown is modeled splitting the Susceptible population in two sub-populations, Confined and Unconfined.</p>
-                        <p>The lack of immunity is modeled using a feedback f>0 from Recovered to Unconfined.</p>
+                        <p>The re-infection is modeled using a feedback f>0 from Recovered to Unconfined.</p>
                         <p>The system becomes:</p>
                         <div style="text-align: center;">
                             <p> dC/dt = -aCI</p>
@@ -80,33 +80,38 @@
                         <p>- Time scaling: 1000*dt = 5 days (an infected can be infective for 5 days).</p>
                         <p>- Reproduction number for Confined: a = 1. The number of infections resulting from a single infection in the Confined population.</p>
                         <p>- Reproduction number for Unconfined: 1 <= b <= 9. The number of infections resulting from a single infection in the Confined population. Default value: b = 2.6.</p>
-                        <p>- Lack of immunity feedback: 0 <= f <=1.</p>
+                        <p>- Re-infection feedback rate: 0 <= f <=1.</p>
                         <p>- Rate of Deceased: 0 <= h <= 0.9. Default value h = 0.034 (estimated by WHO).</p> 
                         <p>- Rate of Recovered: g = 1.0 - h.</p> 
                         <p>- Lockdown starts after 20 days (fixed value).</p>
                         <p>- Lockdown duration 10 days <= Ts <= 100 days. Default value Ts = 40 days.</p>
                         <p>- Linear relaxation time 1 days <= Ts <= 100 days. Default value Ts = 80 days.<p>
                         <p>- Simulation time: 730 days (2 years), fixed value.<p>
-                        <p><b>SIRD-with lack of Immunity and without lockdown-relaxation</b></p>
+                        <p><b>SIRD-with re-infection feedback and without lockdown-relaxation constraint</b></p>
                         <p>- See the right panel, top chart.</p>
                         <p>- The reproduction numbers are identical a=b for both Confined and Unconfined, since all population is Unconfined.</p>
-                        <p>- The lack immunity feedback f can be used to simulate the possibility of reinfection of the Recovered.</p>
-                        <p>- If f = 0 then we have 100% immunity, and the virus has a short and painful effect.</p>
+                        <p>- The feedback f can be used to simulate the possibility of re-infection of the Recovered.</p>
+                        <p>- If f = 0 then the virus has a short and painful effect.</p>
                         <p>- If f > 0 then one can have waves of epidemic and the number of deaths increases substantially.</p>
-                        <p><b>SIRD-with lack of Immunity and step-step lockdown-relaxation</b></p>
+                        <p><b>SIRD-with re-infection feedback and step-step lockdown-relaxation constraint</b></p>
                         <p>- See the right panel, middle chart.</p>
                         <p>- The lockdown starts after 20 days, and the length is variable: 10 days <= Ts <= 100 days</p>
                         <p>- At the begining of the lockdown the Unconfined is set to 0.1 <= U <= 0.9, and the Confined population is set to C = 1 - U.</p>
                         <p>- The reproduction number for the Confined population is: a = 1 for 20 days <= t <= Ts, and a = b otherwise.</p>
-                        <p>- The reproduction number for the Unonfined population is variable: 1 <= b <= 9.</p>
-                        <p>- The lack immunity feedback f is as described before.</p>
+                        <p>- The reproduction number for the Unconfined population is variable: 1 <= b <= 9.</p>
+                        <p>- The re-infection feedback f is as described before.</p>
                         <p>- One can see a big infective peak after the step relaxation of lockdown, accompanied by waves of epidemic if f > 0, resulting in a substantial increase in deaths and a "perpetuation" of the infective population.</p>
-                        <p><b>SIRD-with lack of Immunity and step-linear lockdown-relaxation</b></p>
+                        <p><b>SIRD-with re-infection feedback and step-linear lockdown-relaxation constraint</b></p>
                         <p>- See the right panel, bottom chart.</p>
                         <p>- The lockdown is as before a step function of length Ts.</p>
                         <p>- The relaxation is a linear function of length 1 day <= Tl <= 100 days.</p>
                         <p>- The rest of the parameters are as before.</p>
                         <p>- One can see that by using a linear relaxation over a longer time the infective peak and the waves become smaller.</p>
+                        <p><b>Conclusions</b></p>
+                        <p>The step lockdown-relaxation cannot flatten the peak of possible epidemic flare up.</p>
+                        <p>The step-linear lockdown-relaxation requires long time to flatten the peak of possible epidemic flare up.</p>
+                        <p>The possibility of a re-infection feedback is particularly worrying because it can create waves of epidemics and it can keep the virus active for long time.</p>
+                        <p>The number of deaths can be very high if the death rate is 3.4% (current WHO estimate), and there is re-infection feedback</p>
                         <small>
                         <p><b>References</b></p>
                         <p>1. N.M. Ferguson and the Imperial College COVID-19 Response Team, Impact of non-pharmaceutical interventions (NPIs) to reduce COVID- 19 mortality and healthcare demand, preprint March 2020.</p>
