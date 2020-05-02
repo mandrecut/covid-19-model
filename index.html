@@ -26,7 +26,7 @@
                         <p>- A simple epidemic model able to capture the lockdown-relaxation, and possible re-infection (due to virus mutation for example).</p>
                         <p><b>Why?</b></p>
                         <p>- Relaxing the lockdown constraints may flare up the epidemic.</p>
-                        <p>- Possible re-infection feedback may perpetuate the epidemic for a long time.</p>
+                        <p>- Possible re-infection feedback may perpetuate the epidemic.</p>
                         <p><b>How?</b></p>
                         <p>- SIRD population model: Susceptible, Infective, Recovered, Deceased.</p>
                         <p>- Constraints: lockdown-relaxation.</p>
@@ -79,8 +79,8 @@
                         <p>- Initial fraction of infective: I(0) = 0.00001.</p>
                         <p>- Integration step: dt = 0.001.</p>
                         <p>- Time scaling: 1000*dt = 5 days (an infected can be infective for 5 days).</p>
-                        <p>- Reproduction number for Confined: a = 1. The number of infections resulting from a single infection in the Confined population.</p>
-                        <p>- Reproduction number for Unconfined: 1 <= b <= 9. The number of infections resulting from a single infection in the Confined population. Default value: b = 2.6.</p>
+                        <p>- Reproduction number for Confined: a = 1. Number of infections resulting from a single infection in the Confined population.</p>
+                        <p>- Reproduction number for Unconfined: 1 <= b <= 9. Number of infections resulting from a single infection in the Confined population. Default value: b = 2.6.</p>
                         <p>- Re-infection feedback rate: 0 <= f <=1.</p>
                         <p>- Rate of Deceased: 0 <= h <= 0.9. Default value h = 0.034 (estimated by WHO).</p> 
                         <p>- Rate of Recovered: g = 1.0 - h.</p> 
@@ -93,7 +93,7 @@
                         <p>- The reproduction numbers are identical a=b for both Confined and Unconfined, since all population is Unconfined.</p>
                         <p>- The feedback f can be used to simulate the possibility of re-infection of the Recovered.</p>
                         <p>- If f = 0 then the virus has a short and painful effect.</p>
-                        <p>- If f > 0 then one can have waves of epidemic and the number of deaths increases substantially.</p>
+                        <p>- If f > 0 then one can have waves of epidemic and increased number of deaths.</p>
                         <p><b>SIRD-with re-infection feedback and step-step lockdown-relaxation constraint</b></p>
                         <p>- See the right panel, middle chart.</p>
                         <p>- The lockdown starts after 20 days, and the length is variable: 10 days <= Ts <= 100 days</p>
@@ -101,7 +101,7 @@
                         <p>- The reproduction number for the Confined population is: a = 1 for 20 days <= t <= Ts, and a = b otherwise.</p>
                         <p>- The reproduction number for the Unconfined population is variable: 1 <= b <= 9.</p>
                         <p>- The re-infection feedback f is as described before.</p>
-                        <p>- One can see a big infective peak after the step relaxation of lockdown, accompanied by waves of epidemic if f > 0, resulting in a substantial increase in deaths and a "perpetuation" of the infective population.</p>
+                        <p>- One can see a big infective peak after the step relaxation of lockdown, accompanied by waves of epidemic if f > 0, with a "perpetuation" of the infective population.</p>
                         <p><b>SIRD-with re-infection feedback and step-linear lockdown-relaxation constraint</b></p>
                         <p>- See the right panel, bottom chart.</p>
                         <p>- The lockdown is as before a step function of length Ts.</p>
